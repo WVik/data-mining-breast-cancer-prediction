@@ -12,19 +12,25 @@ import pandas as pd
 dataFrame = pd.read_csv('/Users/Vikram/Documents/Projects/Data-Mining-Breast-Cancer/data/breast-cancer-wisconsin.data',
                        names = ['id','clump_thickness', "unif_cell_size", "unif_cell_shape", "marg_adhesion", "single_epith_cell_size", "bare_nuclei", "bland_chrom", "norm_nucleoli", "mitoses", "class"])
 
-dataFrame.replace('?','-9999999', inplace=True)
+
+
+#Drop missing data values
+dataFrame.replace('?',np.nan, inplace=True)
+dataFrame.dropna(0,'any',inplace=True)
+
+
+#Drop the ID column
 dataFrame.drop(['id'],1,inplace=True)
 
-#print(dataFile['clump_thickness'])
 
+#Separate attributes and class
 X = np.array(dataFrame.drop('class',1))
 y = np.array(dataFrame['class'])
 
 kf = model_selection.KFold(n_splits = 10);
 globalAccuracy = 0.0
 
-#print(kf.split(X))
-
+#Cross-Validate
 for train_index, test_index in kf.split(X):
     X_train, X_test = X[train_index], X[test_index]
     y_train, y_test = y[train_index], y[test_index]
