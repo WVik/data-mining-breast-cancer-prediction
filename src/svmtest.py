@@ -1,6 +1,7 @@
 import numpy as np
 from sklearn import preprocessing, model_selection, tree
 import pandas as pd
+from sklearn import svm
 
 
 dataFrame = pd.read_csv('/Users/Vikram/Documents/Projects/Data-Mining-Breast-Cancer/data/breast-cancer-wisconsin.data',
@@ -25,18 +26,14 @@ kf = model_selection.KFold(n_splits = 10);
 globalAccuracy = 0.0
 
 
+clf = svm.SVC()
+
+
 for train_index, test_index in kf.split(X):
     X_train, X_test = X[train_index], X[test_index]
     y_train, y_test = y[train_index], y[test_index]
     #print(train_index)
     print("--------")
-    clf_gini = tree.DecisionTreeClassifier(criterion="gini",max_depth=20,min_samples_leaf=30)
-    clf_gini.fit(X_train, y_train)
-    accuracy = clf_gini.score(X_test, y_test)
+    clf.fit(X_train, y_train)
+    accuracy = clf.score(X_test, y_test)
     print(accuracy)
-    globalAccuracy += accuracy
-
-print()
-print()
-
-print(globalAccuracy)
