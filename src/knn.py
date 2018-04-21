@@ -36,7 +36,15 @@ for train_index, test_index in kf.split(X):
     y_train, y_test = y[train_index], y[test_index]
     #print(train_index)
     print("--------")
-    clf = neighbors.KNeighborsClassifier()
+    clf = neighbors.KNeighborsClassifier(n_neighbors = 7)
     clf.fit(X_train, y_train)
     accuracy = clf.score(X_test, y_test)
+    globalAccuracy += accuracy
     print(accuracy)
+
+
+print()
+print()
+print("--------Global-------")
+
+print(globalAccuracy/10)
