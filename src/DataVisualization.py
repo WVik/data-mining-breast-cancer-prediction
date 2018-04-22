@@ -1,10 +1,8 @@
-__author__ = 'Vikram'
-
 import matplotlib.pyplot as plt
 import numpy as np
 from sklearn import preprocessing, model_selection, tree
 import pandas as pd
-import plotly
+
 
 dataFrame = pd.read_csv('/Users/Vikram/Documents/Projects/Data-Mining-Breast-Cancer/data/breast-cancer-wisconsin.data',
                        names = ['id','clump_thickness', "unif_cell_size", "unif_cell_shape", "marg_adhesion", "single_epith_cell_size", "bare_nuclei", "bland_chrom", "norm_nucleoli", "mitoses", "class"])
@@ -33,7 +31,7 @@ test = np.array(dataFrame)
 df1 = dataFrame
 df1 = df1.loc[df1['class']==2]
 df1 = np.array(df1[['clump_thickness','class']])
-print(df1)
+
 
 n,bins,patches = plt.hist(df1[:,0:1],bins=[i for i in range(1,10)])
 
@@ -45,4 +43,4 @@ plt.show()
 '''plt.ylabel('Frequency')
 plt.title(r'$\mathrm{Histogram\ of\ Bare Nucleoli:}$')
 
-plt.show() '''
+plt.show()'''
