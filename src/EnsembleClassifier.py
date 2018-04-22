@@ -1,5 +1,5 @@
 import numpy as np
-from sklearn import preprocessing, model_selection, tree, metrics
+from sklearn import preprocessing, model_selection, tree, metrics, neighbors,svm
 import pandas as pd
 from sklearn import svm
 
@@ -28,9 +28,13 @@ y = np.array(dataFrame['class'])
 kf = model_selection.KFold(n_splits = 10);
 globalAccuracy = 0.0
 
-print(len(X))
 
-clf = svm.SVC(kernel='poly',degree=3)
+
+clf1 = svm.SVC(kernel='poly',degree=3)
+clf2 = neighbors.KNeighborsClassifier(n_neighbors = 5)
+clf3 = svm.SVC(kernel='poly',degree=3)
+
+
 
 
 
@@ -39,17 +43,28 @@ for train_index, test_index in kf.split(X):
     y_train, y_test = y[train_index], y[test_index]
     #print(train_index)
     print("--------")
-    clf.fit(X_train, y_train)
-    y_pred = clf.predict(X_train)
+    clf1.fit(X_train, y_train)
+    clf2.fit(X_train, y_train)
+    clf3.fit(X_train, y_train)
+    ypred=[]
+    for i in range(0,len(X_test)):
+        y1 = clf1.predict(X_test[i].reshape(-1,9))
+        y2 = clf2.predict(X_test[i].reshape(-1,9))
+        y3 = clf2.predict(X_test[i].reshape(-1,9))
+        if(y1[0]+y2[0]+y3[0]>8):
+            ypred.append(4)
+        else:
+            ypred.append(2)
 
-    misclassified_samples = X_test[y_test != y_pred]
-    print(len(misclassified_samples))
+    correct = 0
+    incorrect = 0
 
-    accuracy = clf.score(X_test, y_test)
-    metrics.confusion_matrix(y_test, y_pred)
-    print(metrics.classification_report(y_test, y_pred))
-    globalAccuracy+=accuracy
-    print(accuracy)
+
+    metrics.confusion_matrix(y_test, ypred)
+    print(metrics.classification_report(y_test, ypred))
+
+
+
 
 print()
 print()
